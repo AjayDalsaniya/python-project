@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     {% load static %}
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Checkout Page</title>
+     <!-- font awesome cdn link -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+ 
+     <!-- bootsrap cdn link -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css">
+ 
+     <!-- iconscout cdn link -->
+     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+ 
+     <!-- custome css link -->
+     <link rel="stylesheet" href="{% static '/css/checkout.css' %}">
+ 
+     <link rel="stylesheet" href="{% static '/css/alertify.min.css' %}">
+
+
+    <style>
+        .center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+
+<div class="center">
+
+    <form class="text-center border border-light p-5" action="success" method="POST">
+        {% csrf_token %}
+
+        <p class="h3 mb-3"><i class="fas fa-coffee"></i> BUY ME A COFFEE!!</p>
+        <p class="mb-3">Help us create more videos by donating 500 INR</p>
+
+        <button id="razorpayButton">Pay  Razorpay</button>
+
+        <!-- RAZORPAY INTEGRATION HERE -->
+        {% if payment_id %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    // Define function to initialize Razorpay payment
+    function initiateRazorpayPayment(paymentId) {
+        var options = {
+            "key": "rzp_test_cvtTXHmj1tE4Hz",
+            "amount": 50000,
+            "currency": "INR",
+            "order_id": paymentId, // Use the extracted payment ID here
+            "name": "Professional Cipher",
+            "description": "Django and Data Science",
+            "image": "https://example.com/your_logo.jpg",
+            "prefill": {
+                "name": "PC",
+                "email": "pc@studygyaan.com"
+            },
+            "theme": {
+                "color": "#F37254"
+            }
+        };
+
+        var rzp = new Razorpay(options);
+
+        rzp.open();
+    }
+
+    // Initiate payment if payment ID exists
+    window.onload = function() {
+        initiateRazorpayPayment("{{ payment_id }}");
+    };
+</script>
+{% endif %}
+        
+
+
+    </form>
+
+</div>
+
+
+</div>
+
+</body>
+</html>

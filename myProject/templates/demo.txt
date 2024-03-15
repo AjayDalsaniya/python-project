@@ -1,0 +1,7 @@
+{% comment %} return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: '0.01'//'{{total_price | stringformat:"d"}}' // Can also reference a variable or function
+            }
+          }]
+        }); {% endcomment %}
